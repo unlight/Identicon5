@@ -2,10 +2,9 @@
 
 $PluginInfo['Identicon5'] = array(
 	'Name' => 'Identicon5 (jQuery)',
-	'Description' => 'Draws identicons using HTML5 Canvas instead of the Gravatar image link. If Canvas is not supported the plugin defaults to the standard gravatar image link.',
-	'Version' => '1.0.0.Beta',
+	'Description' => 'Identicons using HTML5 Canvas & JQuery. Draws identicons using HTML5 Canvas instead of the Gravatar image link. If Canvas is not supported the plugin defaults to the standard gravatar image link.',
+	'Version' => '1.0.1',
 	'Author' => 'Francis Shanahan',
-	'AuthorEmail' => 'noreply@example.com',
 	'AuthorUrl' => 'http://francisshanahan.com'
 );
 
@@ -50,11 +49,11 @@ class Identicon5Plugin implements Gdn_IPlugin {
 	}
 
 	public function Setup() {
-		// No setup required.
+		RemoveFromConfig('EnabledPlugins.Gravatar');
 	}
 	
 	
-	// TODO: CHANGE TO COMMENTS AND DISCUSSION RENDER ONLY
+	// TODO: CHANGE TO COMMENTS, DISCUSSION, ACTIVITY RENDER ONLY
 	public function Base_Render_Before($Sender) {
 		if ($Sender->DeliveryType() == DELIVERY_TYPE_ALL) {
 			$Sender->AddDefinition('GardenThumbnailWidth', C('Garden.Thumbnail.Width', 40));
@@ -69,8 +68,8 @@ class Identicon5Plugin implements Gdn_IPlugin {
 if (!function_exists('UserBuilder')) {
 
 	function UserBuilder($Object, $UserPrefix = '') {
-		static $Protocol, $GardenThumbnailWidth, $DefaultAvatarAsset;
-		$User = new stdClass();
+		static $GravatarAvatar, $GardenThumbnailWidth, $DefaultAvatarAsset;
+		$User = new StdClass();
 		$UserID = $UserPrefix.'UserID';
 		$Name = $UserPrefix.'Name';
 		$Photo = $UserPrefix.'Photo';
@@ -80,14 +79,15 @@ if (!function_exists('UserBuilder')) {
 		$User->Photo = property_exists($Object, $Photo) ? $Object->$Photo : '';
 		
 		if ($User->Photo == '' && property_exists($Object, $Email)) {
+			//$User->Email = strtolower($Object->$Email);
 			$Hash = md5(strtolower($Object->$Email));
-			if ($Protocol === Null) {
+			if ($GravatarAvatar === Null) {
 				$Protocol =  (strlen(GetValue('HTTPS', $_SERVER, 'No')) != 'No' || GetValue('SERVER_PORT', $_SERVER) == 443) ? 'https://secure.' : 'http://www.';
+				$GravatarAvatar = $Protocol.'gravatar.com/avatar.php';
 				$GardenThumbnailWidth = C('Garden.Thumbnail.Width', 40);
 				$DefaultAvatarAsset = urlencode(Asset(C('Plugins.Gravatar.DefaultAvatar', 'plugins/Identicon5/default.gif'), True));
 			}
-			
-			$User->Photo = $Protocol.'gravatar.com/avatar.php?gravatar_id='.$Hash.'&amp;default='.$DefaultAvatarAsset.'&amp;size='.$GardenThumbnailWidth;
+			$User->Photo = $GravatarAvatar.'?gravatar_id='.$Hash.'&amp;default='.$DefaultAvatarAsset.'&amp;size='.$GardenThumbnailWidth;
 		}
 		return $User;
 	}

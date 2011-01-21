@@ -1,6 +1,8 @@
 (function ($) {
 	
+	// modified by S
 	var props = 'width height top right bottom left margin-top margin-right margin-bottom margin-left padding-top padding-right padding-bottom padding-left border-top-width border-right-width border-bottom-width border-left-width border-top-color border-right-color border-bottom-color border-left-color border-top-style border-right-style border-bottom-styleborder-left-style position display visibility z-index overflow-x overflow-y white-space clip float clear cursor'.split(' ');
+	var index = 'gravatar_id=';
 	
 	$.fn.identicon5 = function (w) {
 		settings = jQuery.extend({
@@ -198,22 +200,20 @@
 		if (settings.replace && this.is('img')) {
 			return this.each(function () {
 				var b = document.createElement('canvas');
-				if (!b.getContext) return this;
-				var src = this.src, index = 'gravatar_id=';
-				var pos1 = src.indexOf(index) + index.length;
-				var c = b.getContext("2d");
-				b.width = settings.size;
-				b.height = settings.size;
-				if (pos1 > 0) {
-					// copy style
-					for (var i = 0; i < props.length; i++) {
-						$(b).css(props[i], $(this).css(props[i]));
-					}
-					
-					var hash = src.substr(pos1, 32);
-					E(c, hash, settings.size, settings.rotate);
-					$(this).replaceWith(b);
-					//console.log(this.style.length);
+				if (b.getContext) {
+					var src = this.src;
+					var pos1 = src.indexOf(index) + index.length;
+					var c = b.getContext("2d");
+					b.width = settings.size;
+					b.height = settings.size;
+					if (pos1 > 0) {
+						for (var i = 0; i < props.length; i++) {
+							$(b).css(props[i], $(this).css(props[i]));
+						}
+						var hash = src.substr(pos1, 32);
+						E(c, hash, settings.size, settings.rotate);
+						$(this).replaceWith(b);
+					}					
 				}
 				return this;
 			});
