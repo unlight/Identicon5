@@ -3,7 +3,7 @@
 $PluginInfo['Identicon5'] = array(
 	'Name' => 'Identicon5 (jQuery)',
 	'Description' => 'Identicons using HTML5 Canvas & JQuery. Draws identicons using HTML5 Canvas instead of the Gravatar image link. If Canvas is not supported the plugin defaults to the standard gravatar image link.',
-	'Version' => '1.0.1',
+	'Version' => '1.0.2',
 	'Author' => 'Francis Shanahan',
 	'AuthorUrl' => 'http://francisshanahan.com'
 );
