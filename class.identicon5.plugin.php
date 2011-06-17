@@ -3,7 +3,7 @@
 $PluginInfo['Identicon5'] = array(
 	'Name' => 'Identicon5 (jQuery)',
 	'Description' => 'Identicons using HTML5 Canvas & JQuery. Draws identicons using HTML5 Canvas instead of the Gravatar image link. If Canvas is not supported the plugin defaults to the standard gravatar image link.',
-	'Version' => '1.0.5',
+	'Version' => '1.0.6',
 	'Author' => 'Francis Shanahan',
 	'AuthorUrl' => 'http://francisshanahan.com'
 );
@@ -50,6 +50,12 @@ class Identicon5Plugin implements Gdn_IPlugin {
 		$Sender->SQL->Select('iu.Email', '', 'InsertEmail');
 	}
 
+	// custom
+	public function OnlineMessageModel_BeforeGet_Handler(&$Sender) {
+		$Sender->SQL->Select('iu.Email', '', 'InsertEmail');
+	}
+	
+
 	public function Setup() {
 		RemoveFromConfig('EnabledPlugins.Gravatar');
 	}
@@ -79,6 +85,7 @@ if (!function_exists('UserBuilder')) {
 		$User->UserID = $Object->$UserID;
 		$User->Name = $Object->$Name;
 		$User->Photo = property_exists($Object, $Photo) ? $Object->$Photo : '';
+		$User->Email = property_exists($Object, $UserPrefix.'Email') ? $Object->{$UserPrefix.'Email'} : '';
 		
 		if ($User->Photo == '' && property_exists($Object, $Email)) {
 			//$User->Email = strtolower($Object->$Email);
