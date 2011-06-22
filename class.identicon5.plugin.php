@@ -3,7 +3,7 @@
 $PluginInfo['Identicon5'] = array(
 	'Name' => 'Identicon5 (jQuery)',
 	'Description' => 'Identicons using HTML5 Canvas & JQuery. Draws identicons using HTML5 Canvas instead of the Gravatar image link. If Canvas is not supported the plugin defaults to the standard gravatar image link.',
-	'Version' => '1.0.6',
+	'Version' => '1.1.7',
 	'Author' => 'Francis Shanahan',
 	'AuthorUrl' => 'http://francisshanahan.com'
 );
@@ -88,7 +88,6 @@ if (!function_exists('UserBuilder')) {
 		$User->Email = property_exists($Object, $UserPrefix.'Email') ? $Object->{$UserPrefix.'Email'} : '';
 		
 		if ($User->Photo == '' && property_exists($Object, $Email)) {
-			//$User->Email = strtolower($Object->$Email);
 			$Hash = md5(strtolower($Object->$Email));
 			if ($GravatarAvatar === Null) {
 				$Protocol =  (strlen(GetValue('HTTPS', $_SERVER, 'No')) != 'No' || GetValue('SERVER_PORT', $_SERVER) == 443) ? 'https://secure.' : 'http://www.';
