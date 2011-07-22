@@ -86,6 +86,7 @@ if (!function_exists('UserBuilder')) {
 		$User->Name = $Object->$Name;
 		$User->Photo = property_exists($Object, $Photo) ? $Object->$Photo : '';
 		$User->Email = property_exists($Object, $UserPrefix.'Email') ? $Object->{$UserPrefix.'Email'} : '';
+		$User->Gender = property_exists($Object, $UserPrefix.'Gender') ? $Object->{$UserPrefix.'Gender'} : '';
 		
 		if ($User->Photo == '' && property_exists($Object, $Email)) {
 			$Hash = md5(strtolower($Object->$Email));
