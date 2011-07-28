@@ -16,8 +16,8 @@ jQuery(document).ready(function(){
 			CssHeadString += "\n" + PropertyNames[i] + ': ' + TestImage.css(PropertyNames[i]) + ";";
 		}
 		CssHeadString = ".IdentIcon5 {" + CssHeadString + "\n}";
-		$('<style/>', {type: 'text/css', html: CssHeadString}).appendTo($('head').first());
-
+		CssHeadString = '<style type="text/css">'+CssHeadString+'</style>';
+		$(CssHeadString).appendTo($('head').first());
 		$(Selector).identicon5(Options);
 	};
 	
