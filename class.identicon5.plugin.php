@@ -88,10 +88,12 @@ if (!function_exists('UserBuilder')) {
 		$User->Email = property_exists($Object, $UserPrefix.'Email') ? $Object->{$UserPrefix.'Email'} : '';
 		$User->Gender = property_exists($Object, $UserPrefix.'Gender') ? $Object->{$UserPrefix.'Gender'} : '';
 		
+		
 		if ($User->Photo == '' && property_exists($Object, $Email)) {
 			$Hash = md5(strtolower($Object->$Email));
 			if ($GravatarAvatar === Null) {
-				$Protocol =  (strlen(GetValue('HTTPS', $_SERVER, 'No')) != 'No' || GetValue('SERVER_PORT', $_SERVER) == 443) ? 'https://secure.' : 'http://www.';
+				$HTTPS = GetValue('HTTPS', $_SERVER, '');
+				$Protocol =  (strlen($HTTPS) || GetValue('SERVER_PORT', $_SERVER) == 443) ? 'https://secure.' : 'http://www.';
 				$GravatarAvatar = $Protocol.'gravatar.com/avatar.php';
 				$GardenThumbnailWidth = C('Garden.Thumbnail.Width', 40);
 				$DefaultAvatarAsset = urlencode(Asset(C('Plugins.Gravatar.DefaultAvatar', 'plugins/Identicon5/default.gif'), True));
