@@ -3,7 +3,7 @@
 $PluginInfo['Identicon5'] = array(
 	'Name' => 'Identicon5 (jQuery)',
 	'Description' => 'Identicons using HTML5 Canvas & JQuery. Draws identicons using HTML5 Canvas instead of the Gravatar image link. If Canvas is not supported the plugin defaults to the standard gravatar image link.',
-	'Version' => '1.1.8',
+	'Version' => '1.9.2.0.18',
 	'Author' => 'Francis Shanahan',
 	'AuthorUrl' => 'http://francisshanahan.com'
 );
@@ -12,44 +12,8 @@ class Identicon5Plugin implements Gdn_IPlugin {
 	
 	
 	// copy/paste from Gravatar plugin
-	public function AddonCommentModel_BeforeGet_Handler(&$Sender) {
-		$Sender->SQL->Select('iu.Email', '', 'InsertEmail');
-	}
-	public function ConversationModel_BeforeGet_Handler(&$Sender) {
-		$Sender->SQL->Select('lmu.Email', '', 'LastMessageEmail');
-	}
-	public function ConversationMessageModel_BeforeGet_Handler(&$Sender) {
-		$Sender->SQL->Select('iu.Email', '', 'InsertEmail');
-	}
-	public function ActivityModel_BeforeGet_Handler(&$Sender) {
-		$Sender->SQL
-		->Select('au.Email', '', 'ActivityEmail')
-		->Select('ru.Email', '', 'RegardingEmail');
-	}
-	public function ActivityModel_BeforeGetNotifications_Handler(&$Sender) {
-		$Sender->SQL
-		->Select('au.Email', '', 'ActivityEmail')
-		->Select('ru.Email', '', 'RegardingEmail');
-	}
-	public function ActivityModel_BeforeGetComments_Handler(&$Sender) {
-		$Sender->SQL->Select('au.Email', '', 'ActivityEmail');
-	}
-	public function UserModel_BeforeGetActiveUsers_Handler(&$Sender) {
-		$Sender->SQL->Select('u.Email');
-	}
-	
-	public function DiscussionModel_BeforeGetID_Handler(&$Sender) {
-		$Sender->SQL->Select('iu.Email', '', 'InsertEmail');
-	}
-	
-	public function CommentModel_BeforeGet_Handler(&$Sender) {
-		$Sender->SQL->Select('iu.Email', '', 'InsertEmail');
-	}
 
-	public function CommentModel_BeforeGetNew_Handler(&$Sender) {
-		$Sender->SQL->Select('iu.Email', '', 'InsertEmail');
-	}
-
+	
 	// custom
 	public function OnlineMessageModel_BeforeGet_Handler(&$Sender) {
 		$Sender->SQL->Select('iu.Email', '', 'InsertEmail');
